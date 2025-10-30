@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>পয়দা দিবসের শুভেচ্ছা — Mahjabin Jareen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #fffafc;
+      --bg2: #f0f7ff;
+      --card: rgba(255,255,255,0.9);
+      --accent1: #a78bfa;
+      --accent2: #60a5fa;
+      --text: #1e293b;
+      --muted: #475569;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,'Noto Sans Bengali',system-ui;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);overflow:hidden;}
+    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:40px;animation:fadeIn 1.8s ease-in-out;}
+    .card{width:900px;max-width:95vw;background:var(--card);border-radius:24px;padding:40px;box-shadow:0 12px 50px rgba(0,0,0,0.1);position:relative;overflow:hidden;backdrop-filter: blur(8px);animation:floatUp 2s ease-out;}
+
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    @keyframes floatUp{0%{transform:translateY(50px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+    @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-12px);}100%{transform:translateY(0);}}
+    @keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+
+    .avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:white;font-size:1.5rem;font-weight:800;box-shadow:0 8px 25px rgba(96,165,250,0.4);animation:pulse 3s ease-in-out infinite;}
+    h1{margin:0;font-size:2rem;background:linear-gradient(90deg,var(--accent2),var(--accent1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .sub{color:var(--muted);margin-top:8px;font-size:1rem;}
+
+    .message{margin-top:24px;padding:20px;border-radius:14px;background:rgba(255,255,255,0.75);box-shadow:0 4px 16px rgba(0,0,0,0.05);animation:fadeIn 2.4s ease-in-out;}
+    .message p{margin:0;font-size:1.08rem;line-height:1.7;font-family:'Noto Sans Bengali',sans-serif;}
+
+    .btn{padding:12px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:600;transition:transform .3s,box-shadow .3s;}
+    .btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;box-shadow:0 6px 20px rgba(96,165,250,0.3);}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(96,165,250,0.4);}
+    .btn-ghost{background:white;border:1px solid #e2e8f0;color:var(--text);}
+
+    /* floating elements */
+    .float-heart, .float-star {position:fixed;width:20px;height:20px;opacity:0.7;animation:rise 6s ease-in infinite;z-index:0;}
+    .float-heart::before{content:'❤';font-size:20px;color:#f472b6;}
+    .float-star::before{content:'✦';font-size:18px;color:#facc15;}
+    @keyframes rise{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-100vh) scale(0.8);opacity:0;}}
+
+    /* background gradient animation */
+    body{background-size:400% 400%;animation:bgMove 15s ease infinite;}
+    @keyframes bgMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+    /* confetti fall */
+    .confetti-piece{position:absolute;will-change:transform,opacity;z-index:999;animation:confetti-fall 4s linear forwards;}
+    @keyframes confetti-fall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(700px) rotate(720deg);opacity:0;}}
+
+    @media(max-width:600px){h1{font-size:1.4rem;}.avatar{width:70px;height:70px;}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <div class="avatar">
+            <img src="jareen.jpg" alt="Mahjabin Jareen" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+        </div>
+
+        <div>
+          <h1>পয়দা দিবসের শুভেচ্ছা, Mahjabin Jareen ✨</h1>
+          <div class="sub">লেট হোক, ভালবাসা কিন্তু সময় চেনে না 💖</div>
+        </div>
+      </div>
+
+      <div class="message"><p id="typed"></p></div>
+
+      <div style="margin-top:18px;display:flex;gap:10px;align-items:center;">
+        <button id="revealBtn" class="btn btn-primary">✨ সারপ্রাইজ আনলক করো</button>
+        <button id="downloadBtn" class="btn btn-ghost">ডাউনলোড</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b3999c4f8.mp3?filename=soft-piano-ambient-112191.mp3" loop></audio>
+
+<script>
+const MESSAGE_BN = `জন্মদিনের অনেক অনেক শুভেচ্ছা! 🎉
+
+জানিস তো, এই দিনটা থেকেই তো আঙ্কেল-আন্টিকে জ্বালানো শুরু করেছিস (তবে একটু কম জ্বালানোর অনুরোধ রইল! 😉)। সাথে তাকেও!
+
+দোয়া করি, তোর এই বিশেষ দিনটি এবং সামনের জীবনটা অনেক সুখের হোক। ভালো করে পড়াশোনা করিস, সামনে তো মিড-টার্ম পরীক্ষা! 📚
+
+যাই হোক, দেরিতে শুভেচ্ছা জানানোর জন্য সত্যিই দুঃখিত (Sorry for the late wish)। ভালোবাসা আর শুভকামনা রইল!`;
+
+const typedEl=document.getElementById('typed');
+let i=0;function type(){if(i<=MESSAGE_BN.length){typedEl.textContent=MESSAGE_BN.slice(0,i);i++;setTimeout(type,35+Math.random()*30);} }
+setTimeout(type,800);
+
+function confetti(){const colors=['#60a5fa','#a78bfa','#f472b6','#facc15','#34d399'];for(let j=0;j<80;j++){const div=document.createElement('div');div.className='confetti-piece';const size=6+Math.random()*10;div.style.width=size+'px';div.style.height=size*1.4+'px';div.style.background=colors[Math.floor(Math.random()*colors.length)];div.style.left=Math.random()*innerWidth+'px';div.style.top='-20px';div.style.animationDuration=(3+Math.random()*3)+'s';document.body.appendChild(div);setTimeout(()=>div.remove(),6000);}}
+
+function floatSymbols(){for(let k=0;k<10;k++){const el=document.createElement('div');el.className=Math.random()>0.5?'float-heart':'float-star';el.style.left=Math.random()*100+'vw';el.style.bottom='0';el.style.animationDelay=Math.random()*5+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),6000);}}
+setInterval(floatSymbols,1000);
+
+const revealBtn=document.getElementById('revealBtn');
+revealBtn.onclick=()=>{confetti();floatSymbols();document.getElementById('bgMusic').play();revealBtn.disabled=true;revealBtn.textContent='🎉 সারপ্রাইজ চলছে!';const extra=document.createElement('p');extra.textContent='চলো কেক কাটতে যাবো — তুমি সময় বলো, আমি সারপ্রাইজ নিয়ে আসি 🎂';extra.style.marginTop='12px';extra.style.color='#1e293b';document.querySelector('.message').appendChild(extra);};
+
+document.getElementById('downloadBtn').onclick=()=>{const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mahjabin_belated_birthday_aesthetic.html';a.click();URL.revokeObjectURL(url);};
+</script>
+</body>
+</html>
